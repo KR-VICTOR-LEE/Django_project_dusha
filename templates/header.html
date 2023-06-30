@@ -1,0 +1,22 @@
+{% load static %}
+<body>
+    <header>
+        <div class="top">
+            <a class="top">NEW프래그런스 시트러스 컬렉션</a>
+        </div>
+        <div id="header_index">
+
+                <a href="/" class="logo">
+                    <img src="/static/images/logo.png">
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#">SEARCH</a></li>
+                        <li><a href="{% url 'account_login' %}">LOGIN</a></li>
+                        <li><a href="{% url 'cart:detail'%}">CART</a></li>
+                        <li><a href="{% url 'account_login' %}">SIGNUP</a></li>
+                    </ul>
+                </nav>
+        </div>
+    </header>
+</body>
