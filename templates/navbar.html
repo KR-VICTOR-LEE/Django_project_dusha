@@ -1,12 +1,29 @@
-{% include 'header.html' %}
+
 <aside class="side-bar" style="z-index: 999;">
 
   <ul>
     <li>
-      <a href="{% url 'item:category_page' '딥디크' %}">딥디크</a>
+      <a href="{% url 'item:item_list' %}">All</a>
+
     </li>
     <li>
-      <a href="{% url 'item:category_page' '조말론' %}">조말론</a>
+      <a href="">PERFUME</a>
+      <ul>
+
+        <li><a href="{% url 'item:category_page' '조말론' %}">Jo Malone</a></li>
+        <li><a href="{% url 'item:category_page' '딥디크' %}">DIPTYQUE</a></li>
+        <li><a href="{% url 'item:category_page' '크리드' %}">CREED</a></li>
+        <
+      </ul>
+    </li>
+    <li>
+      <a href="#">DEFUSER</a>
+      <ul>
+        <li><a href="#">Jo Malone</a></li>
+        <li><a href="#">COCODOR</a></li>
+        <li><a href="#">DIPTYQUE</a></li>
+
+      </ul>
     </li>
     <li><a href="#">EVENT</a></li>
     <li><a href="#">NOTICE</a></li>

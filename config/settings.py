@@ -183,3 +183,4 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 # 기본 유저모델변경
 AUTH_USER_MODEL = "common.User"
+

@@ -1,6 +1,5 @@
 
 from django.db import models
-
 from common.models import User
 from item.models import Item
 
@@ -26,15 +25,3 @@ class Answer(models.Model):
     def __str__(self):
         return self.content
 
-
-# 리뷰 모듈
-class Review(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
-    review = models.ForeignKey(Item, on_delete=models.CASCADE)
-    create_date = models.DateTimeField()
-    modify_date = models.DateTimeField(null=True, blank=True)
-    photo = models.ImageField(upload_to='review_photo', blank=True)
-
-    def __str__(self):
-        return self.content

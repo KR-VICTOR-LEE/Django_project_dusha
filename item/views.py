@@ -1,8 +1,10 @@
 import itertools
 
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.utils import timezone
 
 from cart.forms import AddItemForm
@@ -92,3 +94,15 @@ def item_detail(request, id):
     add_to_cart = AddItemForm(initial={'quantity': 1})
     context = {'item': item, 'add_to_cart': add_to_cart}
     return render(request, 'item/item_detail.html', context)
+
+
+@login_required(login_url=reverse_lazy('account_login'))
+def like_vote(request, id):
+    item_like = get_object_or_404(Item, pk=id)
+
+    if request.user in item_like.item_likes.all():
+        item_like.item_likes.remove(request.user)
+    else:
+        item_like.item_likes.add(request.user)
+    item_like.save()
+    return redirect('item:item_detail', id)

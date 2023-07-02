@@ -1,15 +1,13 @@
 from allauth.account.views import SignupView, PasswordChangeView
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
-
-import item
-from board.models import Question, Answer, Review
-from board.forms import QuestionForm, AnswerForm, ReviewForm
+from board.models import Question, Answer
+from board.forms import QuestionForm, AnswerForm
 from django.utils import timezone
 from django.urls import reverse
 
-from item.models import Item
+from django.db.models import Q
 
 
 def index(request):
@@ -25,8 +23,22 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 def question_list(request):
     #question_list = Question.objects.all()
+    page =request.GET.get('page', 1)
+    kw = request.GET.get('kw', '')
+
     question_list = Question.objects.order_by('-create_date')
-    context = { 'question_list': question_list }
+    if  kw:
+        question_list = question_list.filter(
+            Q(subject__icontains=kw) |
+            Q(content__icontains=kw) |
+            Q(author__username__icontains=kw) |
+            Q(answer__author__username__icontains =kw)|
+            Q(answer__content__icontains=kw)).distinct()
+
+    paginator = Paginator(question_list, 10)  # 페이지당 10개씩 설정
+    page_obj = paginator.get_page(page)  # 페이지 가져오기
+    context = {'question_list': page_obj, 'page': page, 'kw': kw}
+
     return render(request, 'board/question_list.html', context)
 
 
@@ -125,65 +137,13 @@ def answer_modify(request, answer_id):
     return render(request, 'board/answer_form.html', context)
 
 
-# 리뷰 등록
-@login_required(login_url='/login/')
-def review_create(request, id):
-    review = get_object_or_404(Item, pk=id)
-
-    if request.method == "POST":
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.create_date = timezone.now()
-            review.author = request.user
-            review.modify_date = timezone.now()
-            review.photo = request.FILES.get('photo')
-            review.id= id
-            review.save()
-            return redirect('item:item_detail', id=id)
-    else:
-        form = ReviewForm()
-
-    context = {'id': id, 'form': form}
-    return render(request, 'item/item_detail.html', context)
 
 
 
+def service(request):
+    return render(
+        request,
+        'board/service.html/',
+        {},
+    )
 
-# 리뷰 수정
-@login_required(login_url='/login/')
-def review_modify(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-    if request.method == "POST":
-        form = ReviewForm(request.POST, request.FILES, instance=review)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.author = request.user
-            review.modify_date = timezone.now()
-            review.save()
-            return redirect('board:detail', question_id = review.question.id)
-    else:
-        form = ReviewForm(instance=review)
-    context = {'review': review, 'form': form}
-    return render(request, 'board/review_form.html', context)
-
-# 리뷰 삭제
-@login_required(login_url='/login/')
-def review_delete(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-    review.delete()
-    return redirect('board:detail', question_id = review.question.id)
-
-# 파일 업로드
-def upload(request):
-    if request.method == 'POST' and request.FILES['file']:
-        file = request.FILES['file']
-
-    return render(request, 'board/review_form.html', {'file': file})
-
-
-
-class SignupView(SignupView):
-  def get_success_url(self): #어떤 폼이 성공적으로 처리되면 어디로 리디렉션할지 정해줌
-
-    return reverse("/")

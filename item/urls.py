@@ -12,6 +12,8 @@ urlpatterns = [
     path('best/', views.best, name='best_item'),
     path('create/', views.item_create, name='item_create'),
     path('category/<str:slug>/', views.category_page, name='category_page'),
+    path('<int:id>/like/', views.like_vote, name='like_vote'),
+
 
     ]
 
