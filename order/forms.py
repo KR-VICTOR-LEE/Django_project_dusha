@@ -8,7 +8,7 @@ from order.models import Order
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['realname', 'email', 'address']
+        fields = ['realname', 'email', 'address', 'phone']
 
 
 

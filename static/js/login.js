@@ -16,3 +16,13 @@ signUpBtn.addEventListener("click", () => {
 fistForm.addEventListener("submit", (e) => e.preventDefault());
 secondForm.addEventListener("submit", (e) => e.preventDefault());
 });
+
+//로그인 끝
+
+
+$(function(){
+  $(document).one('click', '.like-review', function(e) {
+    $(this).html('<i class="fa fa-heart" aria-hidden="true"></i> You liked this');
+    $(this).children('.fa-heart').addClass('animate-like');
+  });
+});

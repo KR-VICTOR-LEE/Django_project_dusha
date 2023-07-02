@@ -2,8 +2,9 @@
 {% block content %}
 
 
-<section class="wrap">
+<section id="wrap">
     <section id="detail">
+
         <h2 class="border-bottom py-2">{{ question.subject }}</h2>
         <div class="card my-3">
             <div class="card-body">
@@ -46,10 +47,11 @@
                 <!-- 글쓴이가 로그인한 사람과 일치하면 -->
                 {% if answer.author == request.user %}
                 <div>
-                    <a href="{% url 'board:answer_modify' answer.id %}" class="modify btn btn-sm btn-online-secondary">수정</a>
+                    <a href="{% url 'board:answer_modify' answer.id %}">
+                        <button type="submit" class="custom-btn btn_one1">수정</button></a>
                     <a href="#"
-                       data-uri="{% url 'board:answer_delete' answer.id %}"
-                       class="delete btn btn-sm btn-online-secondary">삭제</a>
+                       data-uri="{% url 'board:answer_delete' answer.id %}">
+                        <button type="submit" class="custom-btn btn_one1">삭제</button></a>
                 </div>
                 {% endif %}
             </div>
@@ -66,9 +68,10 @@
                           cols="50" class="form-control mb-3"
                     {% if not user.is_authenticated %}disabled{% endif %}></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">답변 등록</button>
+            <button type="submit" class="custom-btn btn_one1">답변 등록</button>
         </form>
     </section>
+    {% include 'footer.html' %}
 </section>
 
 

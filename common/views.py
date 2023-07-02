@@ -75,3 +75,8 @@ def member_detail(request, coupon_code):
 
     context ={ 'member': member}
     return render(request, 'common/member_detail.html', context)
+
+def membership(request):
+    member = Member.objects.all()
+
+    return render(request, 'common/membership.html', {'member': member})

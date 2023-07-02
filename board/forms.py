@@ -1,6 +1,7 @@
 from django import forms
 from board.models import Question, Answer
 
+
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
@@ -17,4 +18,3 @@ class AnswerForm(forms.ModelForm):
         labels = {
             'content' : '답변 내용'
         }
-

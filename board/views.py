@@ -1,26 +1,31 @@
+import itertools
+
 from allauth.account.views import SignupView, PasswordChangeView
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from board.models import Question, Answer
 from board.forms import QuestionForm, AnswerForm
 from django.utils import timezone
 from django.urls import reverse
-
+from item.models import Category, Item
 from django.db.models import Q
 
 
 def index(request):
     print(request.user)
     return render(request, "board/index.html")
-    # return HttpResponse("<h1>웹 메인 페이지 입니다.</h1>")
+
+def event(request):
+
+        return render(request, "board/event.html")
 
 #비밀번호 변경시 인덱스 페이지로 리버스
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):
         return reverse('index')
 
-
+#질문 목록
 def question_list(request):
     #question_list = Question.objects.all()
     page =request.GET.get('page', 1)
@@ -140,10 +145,6 @@ def answer_modify(request, answer_id):
 
 
 
-def service(request):
-    return render(
-        request,
-        'board/service.html/',
-        {},
-    )
 
+def service(request):
+    return render(request, "board/service.html")

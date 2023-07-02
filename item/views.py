@@ -6,7 +6,6 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
-
 from cart.forms import AddItemForm
 from item.forms import ItemForm
 from item.models import Category, Item
@@ -23,16 +22,15 @@ def best(request):
 
     category = Category.objects.order_by('id').all()
     count = range(1, len(category)+1)
-    best3 = Item.objects.filter(gender__isnull=True)
+    best_list = Item.objects.filter(gender__isnull=True)
 
     for n in count:
-        best = Item.objects.filter(gender='MEN', item_category=n).order_by('-sales')[:1]
-        best2 = Item.objects.filter(gender='WOMEN',item_category=n).order_by('-sales')[:1]
-        best3 = itertools.chain(best, best2, best3)
-    best_list = []  # 빈 리스트
-    best_list = best3
+        best = Item.objects.filter(gender='MEN',  item_category=n).order_by('-sales')[:1]
+        best2 = Item.objects.filter(gender='WOMEN', item_category=n).order_by('-sales')[:1]
+        best_list = itertools.chain(best, best2, best_list)
+
     context= {'best_list': best_list}
-    return render( request, 'item/index_item.html',  context )
+    return render( request, 'board/index.html',  context )
 
 #상품 등록
 def item_create(request):
@@ -63,7 +61,7 @@ def item_list(request):
             Q(content__icontains=kw)  # 내용검색
 
         ).distinct()
-    paginator = Paginator(item_list, 10) #페이지당 10개씩 설정
+    paginator = Paginator(item_list, 12) #페이지당 10개씩 설정
     page_obj = paginator.get_page(page) #페이지 가져오기
 
 
@@ -73,6 +71,7 @@ def item_list(request):
 # 카테고리 페이지
 def category_page(request, slug):
     current_category = Category.objects.get(slug=slug)
+    current_category = get_object_or_404(Category, slug=slug)
     item_list = Item.objects.filter(item_category=current_category) #현재 카테고리의 포스트
     item_list = item_list.order_by('-create_date')  #날짜순 내림 차순
     categories = Category.objects.all()
@@ -86,13 +85,12 @@ def category_page(request, slug):
 
 def item_detail(request, id):
 
-    # 제품 상세
-    #item = Item.objects.get(id=item_id) #해당 id의 질문
-    #item = Item.objects.get(id=item_id)
     item = get_object_or_404(Item, pk=id)
-    # 경로에 오류가 있을 때 404로 처리(페이지가 없음)
+
     add_to_cart = AddItemForm(initial={'quantity': 1})
-    context = {'item': item, 'add_to_cart': add_to_cart}
+
+    context = {'item': item, 'add_to_cart': add_to_cart
+              }
     return render(request, 'item/item_detail.html', context)
 
 
