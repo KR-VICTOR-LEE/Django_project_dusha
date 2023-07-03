@@ -13,7 +13,6 @@
 
 
 ![슬라이드1](https://github.com/KR-VICTOR-LEE/Django_project_dusha/assets/69022319/900c8500-5a02-4a9e-8f04-b802009ecc75)
-![슬라이드2](https://github.com/KR-VICTOR-LEE/Django_project_dusha/assets/69022319/4fffde60-b81e-4703-8f52-27895a387d7b)
 ![슬라이드3](https://github.com/KR-VICTOR-LEE/Django_project_dusha/assets/69022319/ead35328-f552-4384-890a-c51c1c57c95a)
 ![슬라이드4](https://github.com/KR-VICTOR-LEE/Django_project_dusha/assets/69022319/6e9cfa2c-9bbd-45de-869b-8228714fdfef)
 ![슬라이드5](https://github.com/KR-VICTOR-LEE/Django_project_dusha/assets/69022319/4b7e135a-026f-4b98-9bcb-8166ad9a6a37)
