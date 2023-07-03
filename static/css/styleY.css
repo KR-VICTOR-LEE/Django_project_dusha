@@ -595,6 +595,11 @@ z-index: 5;
  
 }
 
+.comming{
+    font-size: 4em;
+    text-align: center;
+}
+
 .item-card{
   width: 350px;
  
@@ -650,8 +655,13 @@ z-index: 5;
 }
 
 .pagination1{
-  height: 50px;
+  height: 150px;
 }
+
+.pagination{
+    line-height: 100px;
+}
+
 .pagination button{
     padding: 10px;
 }
@@ -1645,6 +1655,104 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+/* board-detail 스타일 */
+.board-detail{
+    width: 100%;
+    border-top: 1px solid #000;
+}
+
+
+.board-detail .board-detail-title{
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.board-detail .board-detail-content{
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px 5px 20px 5px;
+    height: 250px;
+}
+
+.board-detail .board-detail-content .card-body{
+    height: 230px;
+}
+
+.board-detail .board-detail-content .card-body .card-writer-time{
+    width: 100%;
+    height: 20px;
+}
+
+.board-detail .board-detail-content .card-body .card-text{
+    height: 80%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+.board-detail .board-detail-content .card-body .card-writer-time .card-writer{
+    width: 100%;
+    text-align: right;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.board-detail .board-detail-content .card-body .card-writer-time .card-time{
+    width: 100%;
+    text-align: right;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.answer-detail{
+    width: 100%;
+    border-top: 1px solid #000;
+}
+
+.answer-detail .card-body .card-text{
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+
+}
+
+.answer-detail .card-body .card-text{
+    width: 100%;
+    margin: 20px 0 10px 0;
+    background-color: #eee;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px 5px 20px 5px;
+    height: 150px;
+}
+
+.answer-detail .card-body .answer-writer{
+    width: 100%;
+    text-align: right;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.answer-detail .card-body .answer-time{
+    width: 100%;
+    text-align: right;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.answer-detail .card-body .answer-modify-delete{
+    text-align: center;
+    padding-top: 15px;
+}
+
+
+
 
 
 

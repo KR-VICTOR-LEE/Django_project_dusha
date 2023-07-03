@@ -1,14 +1,11 @@
-import itertools
-
-from allauth.account.views import SignupView, PasswordChangeView
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from allauth.account.views import  PasswordChangeView
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
-from board.models import Question, Answer
-from board.forms import QuestionForm, AnswerForm
+from board.models import Question, Answer, Notice
+from board.forms import QuestionForm, AnswerForm, NoticeForm
 from django.utils import timezone
 from django.urls import reverse
-from item.models import Category, Item
 from django.db.models import Q
 
 
@@ -71,6 +68,7 @@ def question_create(request):
     return render(request, 'board/question_form.html', context)  # get 방식
 
 # 답변 등록
+@login_required(login_url='/login/')
 def answer_create(request, question_id):
 
     # question = Question.objects.get(id=question_id) #해당 id의 질문 객체 생성
@@ -141,10 +139,84 @@ def answer_modify(request, answer_id):
     context = {'answer': answer, 'form': form}
     return render(request, 'board/answer_form.html', context)
 
+#공지사항
 
+def notice_list(request):
+    #question_list = Question.objects.all()
+    page =request.GET.get('page', 1)
+    kw = request.GET.get('kw', '')
+
+    notice_list = Notice.objects.order_by('-create_date')
+    if  kw:
+        notice_list = notice_list.filter(
+            Q(subject__icontains=kw) |
+            Q(content__icontains=kw) |
+            Q(author__username__icontains=kw)).distinct()
+
+    paginator = Paginator(notice_list, 10)  # 페이지당 10개씩 설정
+    page_obj = paginator.get_page(page)  # 페이지 가져오기
+    context = {'notice_list': page_obj, 'page': page, 'kw': kw}
+
+    return render(request, 'board/notice_list.html', context)
+
+
+def notice_detail(request, notice_id):
+    #question = Question.objects.get(id=question_id)
+    notice = get_object_or_404(Notice, id=notice_id) # 데이터가 없으면 404 처리
+    context = {'notice' : notice}
+    return render(request, 'board/notice_detail.html', context)
+
+
+# 질문 등록
+def is_admin(user):
+    return user.is_superuser or user.username == '123'
+
+@user_passes_test(is_admin)
+def notice_create(request):
+    if request.method == "POST":
+        form = NoticeForm(request.POST) # 입력된 데이터가 있는 폼
+        if form.is_valid(): # 폼이 유효성 검사를 통과했다면
+            notice = form.save(commit=False) #가저장
+            notice.author = request.user # 세션 권한(로그인한) 있는 글쓴이
+            notice.create_date = timezone.now()  #등록일 생성
+            form.save() #진짜로 저장
+            return redirect('board:notice_list') # 질문 목록 페이지 이동
+
+    else:  #get 방식
+        form = NoticeForm()  #폼 객체 생성(빈 폼 생성)
+    context = {'form': form}
+    return render(request, 'board/notice_form.html', context)  # get 방식
+
+# 공지사항수정
+@login_required(login_url='/login/')
+def notice_modify(request, notice_id):
+
+    notice = get_object_or_404(Notice, pk=notice_id)
+    if request.method == "POST":
+        form = NoticeForm(request.POST, instance=notice)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.author = request.user
+            notice.modify_date = timezone.now()
+            notice.save()
+            return redirect('board:detail', notice_id=notice.id)
+    else:
+        form = NoticeForm(instance=notice)
+    context = {'form': form}
+    return render(request, 'board/notice_form.html', context)
+
+
+# 질문 삭제
+@login_required(login_url='/login/')
+def notice_delete(request, notice_id):
+
+    notice = get_object_or_404(Notice, pk=notice_id)
+    notice.delete()
+    return redirect('board:notice_list')
 
 
 
 
 def service(request):
     return render(request, "board/service.html")
+

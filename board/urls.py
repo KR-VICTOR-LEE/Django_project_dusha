@@ -14,7 +14,12 @@ urlpatterns = [
     path('answer/delete/<int:answer_id>/', views.answer_delete, name='answer_delete'),  # 답변삭제
     path('board/answer/modify/<int:answer_id>/', views.answer_modify, name='answer_modify'),  # 답변수정
     path('event', views.event, name='event'),  # 답변수정
-
+    # 공지사항
+    path('notice/', views.notice_list, name='notice_list'),
+    path('notice/<int:notice_id>/', views.detail, name='notice_detail'),
+    path('notice/create/', views.notice_create, name='notice_create'),
+    path('notice/delete/<int:notice_id>/', views.notice_delete, name='notice_delete'),
+    path('notice/modify/<int:notice_id>/', views.notice_modify, name='notice_modify'),
 
     path('service/', views.service, name='service'),
 
