@@ -8,8 +8,8 @@
     <div id="user-detail-wrap">
         <div class="user-info-grade">
             <!-- 회원 정보 -->
-
-                <h2>회원 정보</h2>
+            <div class="speech-bubble">
+                <h2><b>회원 정보</b></h2>
                 <table class="user-info-table">
                     <col style="width:200px;">
                     <col style="width:200px;">
@@ -26,11 +26,12 @@
                     </tbody>
                 </table>
 
+            </div>
+            <br><br>
+            <div class="speech-bubble">
+                <!-- 회원 등급 & 구매금액 -->
 
-
-            <!-- 회원 등급 & 구매금액 -->
-
-                <h2>회원 등급</h2>
+                <h2><b>회원 등급</b></h2>
                 <table class="user-grade-table">
                     <col style="width:200px;">
                     <col style="width:200px;">
@@ -51,6 +52,9 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <br><br>
+            <div class="speech-bubble">
                 <table class="user-grade-table">
                     <col style="width:200px;">
                     <col style="width:200px;">
@@ -75,13 +79,13 @@
 
 
                 </table>
-
+            </div>
         </div>
 
-</div>
+    </div>
 
 
-    <div>
+    <div class="cart">
 
         <!-- 장바구니 -->
         <div class="user-cart">
@@ -123,7 +127,7 @@
                         </th>
                         <!-- 장바구니 상품 제목 -->
                         <th>
-                            {{ item.item_title }}
+                            {{ it.item_title }}
                         </th>
                         <!-- 장바구니 상품 금액 -->
                         <th>
@@ -140,6 +144,6 @@
         {% endif %}
     </div>
 
-
+    {% include 'footer.html' %}
 </section>
 {% endblock %}

@@ -31,7 +31,8 @@ def order_create(request):
             cart.clear()
 
 
-            return render(request, 'order/created.html', {'order': order})
+
+            return render(request, 'order/complete.html', {'order': order})
 
     else:
         form = OrderForm()
@@ -48,7 +49,7 @@ def order_complete(request):
         item.sales = F('sales') + order_item.quantity  # 판매량 증가
         item.save()
 
-    return render(request, 'order/created.html', {'order':order})
+    return render(request, 'order/complete.html', {'order':order})
 
 
 
